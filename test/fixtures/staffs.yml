@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  f_name: MyString
+  m_name: MyString
+  l_name: MyString
+  driver_lic_num: MyString
+  driver_lic_exp: 2016-06-26 21:38:28
+  skills: MyText
+  limitations: MyText
+  email: MyString
+  phone: MyString
+  street_num: MyString
+  street_name: MyString
+  suite: MyString
+  city: MyString
+  zip: MyString
+  hire_date: 2016-06-26 21:38:28
+  termination_date: 2016-06-26 21:38:28
+  position: 2016-06-26 21:38:28
+  notes: MyText
+  hourly_wage: 9.99
+  annual_salary: 9.99
+
+two:
+  f_name: MyString
+  m_name: MyString
+  l_name: MyString
+  driver_lic_num: MyString
+  driver_lic_exp: 2016-06-26 21:38:28
+  skills: MyText
+  limitations: MyText
+  email: MyString
+  phone: MyString
+  street_num: MyString
+  street_name: MyString
+  suite: MyString
+  city: MyString
+  zip: MyString
+  hire_date: 2016-06-26 21:38:28
+  termination_date: 2016-06-26 21:38:28
+  position: 2016-06-26 21:38:28
+  notes: MyText
+  hourly_wage: 9.99
+  annual_salary: 9.99

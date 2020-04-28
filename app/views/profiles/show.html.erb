@@ -1,0 +1,145 @@
+<section id="profile_show">  
+  <div class="section container">
+    <div class="row">
+    	<div id='calendar'>
+    	
+    	</div>
+    </div>	
+  </div>
+</section>
+<section>
+<div class="section container">
+	<ul class="collapsible popout center-align" data-collapsible="accordion">
+		<li>
+			<div class="collapsible-header valign-wrapper">
+				<div class="row">
+					<div class="col s12">
+						<h5 class='valign'>Other Administrative Tasks</h5>
+					</div>
+				</div>
+			</div>       
+					
+			<div class="collapsible-body">
+				<div class='row'>
+					<div class="col s12 m6 l4">
+         			<div class='actions waves-effect waves-light btn'>
+	  					<%= button_to "Change your password", edit_user_registration_path, method: :get %>
+	  				</div>
+	  				</div>	
+	  			<% if current_user.is_admin? %>
+         			<div class="col s12 m6 l4">
+         			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Staff', {controller:"staffs", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+         			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Contractors', {controller:"contractors", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+         			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Clients', {controller:"clients", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+		  			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Job Categories', {controller:"job_categories", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+		  			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Job Sub Categories', {controller:"job_subcategories", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+		  			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Expense Types', {controller:"expense_types", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+		  			<div class="col s12 m6 l4">
+		  			<div class='actions waves-effect waves-light btn'>
+		  				<%= button_to 'Afs Accounts', {controller:"afs_accounts", action: "index"}, method: :get%>
+		  			</div>
+		  			</div>
+          		<% end %>
+          		</div>
+         	</div>
+
+		</li>
+		<% if @time_clocks.present? and current_user.is_admin? %> 
+		<li>
+			<div class="collapsible-header valign-wrapper">
+				<div class='row'>
+  					<div class='col s12'>
+  						<h5>Currently clocked in staff</h5>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="collapsible-body">
+  				<div class="container">
+			 	<div class="row">
+				 <table>
+				  <thead>
+				    <tr>
+				      <th>Staff</th>
+				      <th>Time in</th>
+				      <th>Time out</th>
+				      <th>Job</th>
+				      <th>Notes</th>
+				      <th></th>
+				    </tr>
+				  </thead>
+
+				  <tbody>
+				    <% @time_clocks.each do |time_clock| %>
+				      <tr>
+				      	<td><%= time_clock.staff.fullname %></td>
+				        <td><%= time_clock.time_in.strftime('%m/%e/%Y %I:%M %p') %></td>
+				        
+				        <% if time_clock.time_out.present? %>
+				        <td><%= time_clock.time_out.strftime('%m/%e/%Y %I:%M %p') %></td>
+				        <% else %>
+				        <td></td>
+				        <% end %>
+				        
+				        <% if time_clock.job.present? %>
+				        <td><%= time_clock.job.name %></td>
+				        <% else %>
+				        <td></td>
+				        <% end %>
+				        
+				        <% if time_clock.notes.present? %>
+				        <td><%= time_clock.notes %></td>
+				        <% else %>
+				        <td></td>
+				        <% end %>
+				        
+				        <td><%= link_to 'Clock Out', time_clocks_sign_out_path(controller: "time_clock", 
+			            action: "signout", time_clock: time_clock), method: :post %> |
+			            <%= link_to 'Show', time_clock %> |
+			            <%= link_to 'Edit', edit_time_clock_path(time_clock) %> |
+			            <%= link_to 'Destroy', time_clock, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				      </tr>
+				    <% end %>
+				  </tbody>
+				</table>
+			    </div>
+				</div>
+			</div>
+  		</li>
+  		<% end %>
+	</ul>
+</div>
+</section>			
+
+<div id="modal-event" class="modal">
+	<div class="modal-content">
+	  <!-- <h4 class='modal-title'></h4>
+ -->	  
+	  <!-- <p>A bunch of text</p> -->
+	</div>
+	<!-- <div class="modal-footer">
+	  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div> -->
+</div>

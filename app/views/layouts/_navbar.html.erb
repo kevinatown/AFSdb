@@ -1,0 +1,86 @@
+<!-- Header and Navbar -->
+	<header>
+		<!-- Side Navbar for user not signed in -->
+      	<% if user_signed_in? %>
+      		<ul class="side-nav fixed hide-on-med-and-down section table-of-contents">
+				<li><h6>Helpful links:</h6></li>
+	    		<li><%=link_to 'My Profile', :authenticated_root, method: :get, class: "waves-effect waves-purple"%></li>
+	    		<% if current_user.clocked_in? %> 
+	    			<li><%= link_to "Clock out", "", class: "waves-effect waves-purple", id: "navclock_out" %></li>
+	    		<% if current_user.is_admin? %>
+	    			<li><%= link_to "Clock in Staff", "", {class: "waves-effect waves-purple", id: "navclock_in"} %></li>
+	    		<% end %>
+	    		<% else %>
+	    		<li><%= link_to "Clock in", "", {class: "waves-effect waves-purple", id: "navclock_in"} %></li>
+	    		<% end %>
+	    		
+	    		<% if current_user.is_admin? %>
+					<li><%= link_to "All Properties", properties_path, {class: "waves-effect waves-purple"} %></li>
+					<li><%= link_to "All Jobs", jobs_path, {class: "waves-effect waves-purple"} %></li>
+					<li><%= link_to "Open Invoices", invoices_path, {class: "waves-effect waves-purple"} %></li> 
+					<li><%= link_to "All Expenses", expenses_path, {class: "waves-effect waves-purple"} %></li> 
+					<li><%= link_to "All Timesheets", time_clocks_path, {class: "waves-effect waves-purple"} %></li> 
+					<li><%= link_to "Payroll", payroll_path, {class: "waves-effect waves-purple"} %></li>   
+	    		<% else %>
+		    		<li><%= link_to "My Jobs", jobs_path, {class: "waves-effect waves-purple"} %></li>
+		    		<li><%= link_to "My timesheets", time_clocks_path, {class: "waves-effect waves-purple"} %></li> 
+
+	    		<% end %>
+	    		<li><%=link_to 'Sign Out', destroy_user_session_path(), method: :delete, class: "waves-effect waves-purple"%></li>
+	  		</ul>
+	  		<ul id="slide-out" class="side-nav section table-of-contents">
+	  			<li><h6>Helpful links:</h6></li>
+	  			<li><%=link_to 'My Profile', :authenticated_root, method: :get, class: "waves-effect waves-purple"%></li>
+	   			<% if current_user.clocked_in? %> 
+	    		<li><%= link_to "Clock out", "", class: "waves-effect waves-purple", id: "navclock_out" %></li>
+	    		<% if current_user.is_admin? %>
+	    		<li><%= link_to "Clock in Staff", "", {class: "waves-effect waves-purple", id: "navclock_in"} %></li>
+	    		<% end %>
+	    		<% else %>
+	    		<li><%= link_to "Clock in", "", {class: "waves-effect waves-purple", id: "navclock_in"} %></li>
+	    		<% end %>
+
+	    		<% if current_user.is_admin? %> 
+		    		<li><%= link_to "All Properties", properties_path, {class: "waves-effect waves-purple"} %></li>
+					<li><%= link_to "All Jobs", jobs_path, {class: "waves-effect waves-purple"} %></li>
+					<li><%= link_to "Open Invoices", invoices_path, {class: "waves-effect waves-purple"} %></li> 
+					<li><%= link_to "All Expenses", expenses_path, {class: "waves-effect waves-purple"} %></li> 
+					<li><%= link_to "All Timesheets", time_clocks_path, {class: "waves-effect waves-purple"} %></li>
+	    		<% else %>
+		    		<li><%= link_to "My Jobs", jobs_path, {class: "waves-effect waves-purple"} %></li> 
+		    		<li><%= link_to "My timesheets", time_clocks_path, {class: "waves-effect waves-purple"} %></li> 
+
+	    		<% end %>
+	   			<li><%=link_to 'Sign out', destroy_user_session_path(), method: :delete, class: "waves-effect waves-purple"%></li>
+	 		</ul>
+	 		<div class="container">
+			<a class="button-collapse top-nav full hide-on-large-only" data-activates="slide-out" href="#">
+			<i class="material-icons">menu</i>
+			</a>
+			</div>
+      	<% end %>
+
+      	<!-- Side Navbar for user signed in -->
+     
+
+ 		<!-- Menu button -->
+
+ 		<!-- <div class="menu-container yellow z-depth-1">
+ 			<div class='row'>
+ 			<div class='col s1'>
+  				<a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only"><i class="small mdi-navigation-menu "></i></a>
+  			</div>
+  			
+  		</div> -->
+
+    </header>
+    <div id="modal-clock-in" class="modal">
+	<div class="modal-content">
+	  <!-- <h4 class='modal-title'></h4>
+ -->	  
+	  <!-- <p>A bunch of text</p> -->
+	</div>
+	<!-- <div class="modal-footer">
+	  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div> -->
+	</div>

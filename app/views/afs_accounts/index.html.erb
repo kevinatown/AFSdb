@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Afs Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @afs_accounts.each do |afs_account| %>
+      <tr>
+        <td><%= afs_account.name %></td>
+        <td><%= link_to 'Show', afs_account %></td>
+        <td><%= link_to 'Edit', edit_afs_account_path(afs_account) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Afs account', new_afs_account_path %>

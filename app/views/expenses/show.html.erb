@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date incurred:</strong>
+  <% if @expense.date_incurred.present? %>
+    <%= @expense.date_incurred.strftime('%m/%e/%Y') %>
+  <% else %>
+    No date provided.
+  <% end %>
+</p>
+<p>
+  <strong>Expense type:</strong>
+  <% if  @expense.expense_type.present? %>
+  <%=  @expense.expense_type.name %>
+  <% else %>
+  No expense type 
+  <% end %>
+</p>
+<p>
+  <strong>Job:</strong>
+  <% if @expense.job.present? %>
+  <td><%= @expense.job.name %></td>
+  <% else %>
+  No Job
+  <% end %>
+</p>
+<p>
+  <strong>Vendor name:</strong>
+  <%= @expense.vendor_name %>
+</p>
+
+<p>
+  <strong>Vendor location:</strong>
+  <%= @expense.vendor_location %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @expense.description %>
+</p>
+
+<p>
+  <strong>Ammount:</strong>
+  <%= @expense.amount %>
+</p>
+
+<p>
+  <strong>Account Paid From:</strong>
+  <% if @expense.afs_account.present? %>
+  <td><%= @expense.afs_account.name %></td>
+  <% else %>
+  <td>No Account</td>
+  <% end %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @expense.notes %>
+</p>
+
+<%= link_to 'Edit', edit_expense_path(@expense) %> |
+<%= link_to 'Back', expenses_path %>

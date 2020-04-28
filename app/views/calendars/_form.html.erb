@@ -1,0 +1,136 @@
+<%= form_for(@calendar) do |f| %>
+  
+  <% if @calendar.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@calendar.errors.count, "error") %> prohibited this calendar from being saved:</h2>
+
+      <ul>
+      <% @calendar.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class='row'>
+    <div class="input-field col s12 m6">
+      <input id="calendar_event_start" class="validate" type="text" name="calendar[event_start]">
+      <label for='calendar_event_start' class='active'>When does it begin?</label>
+    </div>
+    <div class="input-field col s12 m6">
+     <input id="calendar_event_finish" class="validate" type="text" name="calendar[event_finish]">
+    <label for='calendar_event_finish'>When does it end?</label>
+    </div>
+  </div>
+   <div class='row'>
+    <div class="input-field col s12 m6">
+    <%= f.text_field :description, id: "calendar_descrition", class:"validate"  %>
+    <label for='calendar_descrition'>Title</label>
+    </div>
+    <div class="input-field col s12 m6">
+      <%= f.collection_select(:event_type, @event_types, :id, :name, {prompt: "Whats the occasion?"}, {class: "", id: "calendar_et"}) %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="input-field col s12 m6">
+      <p>Is this for a job?</p>
+    </div>
+    <div class="input-field col s6 m3">
+      <p>
+      <input name="is_job" type="radio" id="y_job" />
+      <label for="y_job">Yes</label>
+      </p>
+    </div>
+     <div class="input-field col s6 m3">
+      <p>
+      <input name="is_job" type="radio" id="n_job" />
+      <label for="n_job">No</label>
+      </p>
+    </div>
+  </div>
+   <div class='row' id='title_location_row'>
+    <div class="input-field col s12" id='cal_loca_select'>
+      <%= f.text_field :location, id: "calendar_location", class:"validate"  %>
+      <label for='calendar_location'>Where at?</label>
+    </div>
+  </div>
+
+  <div class='row' id='job_row'>
+    <div class="input-field col s12" id='cal_job_select'>
+      <%= f.collection_select(:job, @jobs, :id, :name, {prompt: "What gig?"}, {class: "", id: "calendar_job"}) %>
+    </div>
+  </div>
+  
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.collection_select(:staff, @staffs, :id, :fullname, {prompt: "Who's going?"}, {class: "", id: "calendar_staff", multiple: true}) %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.collection_select(:driver, @drivers, :id, :fullname, {prompt: "Who's driving?"}, {class: "", id: "calendar_driver", multiple: true}) %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.collection_select(:car, @cars, :id, :nickname, {prompt: "What whip?"}, {class: "", id: "calendar_car", multiple: true}) %>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.text_area :notes, id: "calendar_note", class:"materialize-textarea" %>
+      <label for='calendar_note'>Anything else?</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit 'Add Event' %>
+    </div>
+    </div>
+    <div class="col s6">
+    <div class="modal-action modal-close waves-effect waves-green btn" onclick="close_mod()">
+    <span>Back</span>
+    </div>
+    </div>
+  </div>
+<% end %>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+   $(function () {
+    $('select').material_select();
+    $("input[name=is_job]").change( function(){
+      if (this.id == 'y_job'){
+        $("#title_location_row").slideUp();
+        $("#job_row").slideDown();
+      } else if (this.id == 'n_job') {
+        $("#title_location_row").slideDown();
+        $("#job_row").slideUp();
+      }
+    });
+    $('#calendar_event_start').datetimepicker({
+      // inline: true,
+      // sideBySide: true,
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+      }
+    });
+    $('#calendar_event_finish').datetimepicker({
+      // inline: true,
+      // sideBySide: true,
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+      }
+    });
+  });
+</script>
+

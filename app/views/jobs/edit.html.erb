@@ -1,0 +1,12 @@
+<div class="section container">
+    <div class="row">
+    	<div class="col s12 m8 offset-m2 l8 offset-l2 ">
+
+		<h3>Edit</h3>
+		</div>
+	</div>
+	<%= render 'form' %>
+<%= link_to 'Show', @job %> |
+<%= link_to 'Back', jobs_path %> |
+<%= link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %> 
+</div>

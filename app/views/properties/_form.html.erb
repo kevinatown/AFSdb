@@ -1,0 +1,97 @@
+<%= form_for(@property) do |f| %>
+  <% if @property.errors.any? %>
+    <div id="error_explanation">
+      <h5><%= pluralize(@property.errors.count, "error") %> prohibited this property from being saved:</h5>
+
+      <ul>
+      <% @property.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="row">
+    <div class="input-field col s3 m2">
+      <%= f.label :street_number, "Number" %><br>
+      <%= f.text_field :street_number %>
+    </div>
+    <div class="input-field col s9 m6 ">
+      <%= f.label :street_name %><br>
+      <%= f.text_field :street_name %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:streetdir_id, Streetdir.all, :id, :name, {prompt: "Street Dir?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:street_type_id, StreetType.all, :id, :name, {prompt: "Street Type?"}, {class: ""}) %>
+    </div>
+  </div>
+  <div class="row">  
+    <div class="input-field col s3 m2">
+      <%= f.label :suite %><br>
+      <%= f.text_field :suite %>
+    </div>
+    <div class="input-field col s9 m6">
+      <%= f.label :city %><br>
+      <%= f.text_field :city %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:state_id, State.all, :id, :name, {prompt: "State?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s6 m2">
+      <%= f.label :zip %><br>
+      <%= f.text_field :zip %>
+    </div>
+  </div>
+    <div class="divider"></div>
+  <div class="row">  
+    <div class="input-field col s6">
+      <%= f.label :lockbox_code %><br>
+      <%= f.text_field :lockbox_code %>
+    </div>
+    <div class="input-field col s6">
+      <div class="row">
+      <%= f.radio_button :is_closed, false , checked: true , value: false %>
+      <label for='property_is_closed_false'>Open</label>
+      <%= f.radio_button :is_closed, true, checked: false, value: true%>
+      <label for='property_is_closed_true'>Closed</label>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">  
+    <div class="input-field col s6 m3">
+      <%= f.label :bldg_sqr_feet %><br>
+      <%= f.number_field :bldg_sqr_feet %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :lot_sqr_feet %><br>
+      <%= f.number_field :lot_sqr_feet %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :lot_acreage %><br>
+      <%= f.text_field :lot_acreage %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :year_built %><br>
+      <%= f.number_field :year_built %>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">  
+    <div class="input-field col s12">
+      <%= f.label :notes %><br>
+      <%= f.text_area :notes, class: "materialize-textarea" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit %>
+    </div>
+    </div>
+<% end %>

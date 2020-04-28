@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @contractor.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @contractor.address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @contractor.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @contractor.state.name %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @contractor.zip %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @contractor.phone %>
+</p>
+
+<p>
+  <strong>Fax:</strong>
+  <%= @contractor.fax %>
+</p>
+
+<p>
+  <strong>Emails:</strong>
+  <%= @contractor.email %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= @contractor.website %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @contractor.notes %>
+</p>
+
+<%= link_to 'Edit', edit_contractor_path(@contractor) %> |
+<%= link_to 'Back', contractors_path %>

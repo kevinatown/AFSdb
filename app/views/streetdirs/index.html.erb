@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Streetdirs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @streetdirs.each do |streetdir| %>
+      <tr>
+        <td><%= streetdir.name %></td>
+        <td><%= link_to 'Show', streetdir %></td>
+        <td><%= link_to 'Edit', edit_streetdir_path(streetdir) %></td>
+        <td><%= link_to 'Destroy', streetdir, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Streetdir', new_streetdir_path %>

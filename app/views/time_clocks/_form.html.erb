@@ -1,0 +1,141 @@
+<%= form_for(@time_clock) do |f| %>
+  <% if @time_clock.errors.any? %>
+    <div id="error_explanation">
+      <h5><%= pluralize(@time_clock.errors.count, "error") %> prohibited this time_clock from being saved:</h5>
+
+      <ul>
+      <% @time_clock.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <% if current_user.is_admin? %>
+      <div class='row'>
+        <div class="input-field col s12">
+          <%= f.collection_select(:staff, Staff.all, :id, :fullname, {prompt: "Who's timesheet?", selected: @time_clock.staff.id}, {class: ""}) %>
+        </div>
+      </div>
+
+  <% else %>
+  <div class='row'>
+    <div class="input-field col s12">
+        <%= f.label :staff, class:'active' %><br>
+        <%= f.text_field :staff, {value: current_user.staff.fullname, readonly: true} %>
+    </div>
+  </div>
+  <% end %> 
+   <div class='row'>
+    <div class="input-field col s12">
+    <% if @time_clock.job.present? %>
+      <%= f.collection_select(:job, Job.where("status = 2 or status = 1"), :id, :name, {selected: @time_clock.job.id, prompt: "What job?"}, {class: "autocomplete", id: "autocomplete-jobs", style: 'width: 100%;'}) %>
+    <% else %>
+      <%= f.collection_select(:job, Job.where("status = 2 or status = 1"), :id, :name, {prompt: "What job?"}, {class: "autocomplete", id: "autocomplete-jobs", style: 'width: 100%;'}) %>
+    <% end %>
+    </div>
+  </div> 
+
+        <!-- TIME IN/OUT AREA -->
+  <div class='row'>
+    <div class="input-field col s6">
+      <% if current_user.is_admin? and @time_clock.time_in.present? %>
+        <input id="time_clock_time_in" class="validate" type="text" name="time_clock[time_in]" value="<%=@time_clock.time_in.strftime('%m/%e/%Y %I:%M %p') %>"/>
+        <label for='time_clock_time_in' class='active'>Time in</label>
+      <% elsif current_user.is_admin? %>  
+        <input id="time_clock_time_in" class="validate" type="text" name="time_clock[time_in]"/>
+        <label for='time_clock_time_in' class='active'>Time in</label>
+      <% elsif @time_clock.time_in.present? %>  
+        <input id="time_clock_time_in" class="validate" type="text" name="time_clock[time_in]" value="<%=@time_clock.time_in.strftime('%m/%e/%Y %I:%M %p') %>" readonly='true' />
+        <label for='time_clock_time_in' class='active'>Time in</label>
+      <% else %>
+        <input id="time_clock_time_in" class="validate" type="text" name="time_clock[time_in]" readonly='true'>
+        <label for='time_clock_time_in' class='active'>Time in</label>
+      <% end %> 
+    </div>
+     <div class="input-field col s6">
+      <% if current_user.is_admin? and @time_clock.time_out.present? %>
+        <input id="time_clock_time_out" class="validate" type="text" name="time_clock[time_out]" value="<%=@time_clock.time_out.strftime('%m/%e/%Y %I:%M %p') %>"/>
+        <label for='time_clock_time_out' class='active'>Time out</label>
+
+      <% elsif current_user.is_admin? %>
+        <input id="time_clock_time_out" class="validate" type="text" name="time_clock[time_out]"/>
+        <label for='time_clock_time_out' class='active'>Time out</label>    
+      <% elsif @time_clock.time_out.present? %>  
+        <input id="time_clock_time_out" class="validate" type="text" name="time_clock[time_out]" value="<%=@time_clock.time_out.strftime('%m/%e/%Y %I:%M %p') %>" readonly='true' />
+        <label for='time_clock_time_out' class='active'>Time out</label>
+      <% else %>
+        <input id="time_clock_time_out" class="validate" type="text" name="time_clock[time_out]" readonly='true'>
+        <label for='time_clock_time_out' class='active'>Time out</label>
+      <% end %> 
+    </div>
+  </div>
+
+  <div class='row'>  
+    <div class="input-field col s6 m3">
+      <%= f.label :lat_in %><br>
+      <%= f.text_field :lat_in, readonly: true  %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :long_in %><br>
+      <%= f.text_field :long_in, readonly: true %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :lat_out %><br>
+      <%= f.text_field :lat_out, readonly: true %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :long_out %><br>
+      <%= f.text_field :long_out, readonly: true %>
+    </div>
+  </div>
+  <div class='row'>  
+  <div class="input-field col s12">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes, class:"materialize-textarea" %>
+  </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit 'Submit' %>
+    </div>
+    </div>
+  </div>  
+
+<% end %>
+
+<script type="text/javascript">
+   $(function () {
+    $('select').material_select();
+    // $("input[name=is_job]").change( function(){
+    //   if (this.id == 'y_job'){
+    //     $("#title_location_row").slideUp();
+    //     $("#job_row").slideDown();
+    //   } else if (this.id == 'n_job') {
+    //     $("#title_location_row").slideDown();
+    //     $("#job_row").slideUp();
+    //   }
+    // });
+    $('#time_clock_time_in').datetimepicker({
+      // inline: true,
+      // sideBySide: true,
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+      }
+    });
+    $('#time_clock_time_out').datetimepicker({
+      // inline: true,
+      // sideBySide: true,
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+      }
+    });
+  });
+</script>

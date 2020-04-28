@@ -1,0 +1,124 @@
+<section>  
+  <div class="section container">
+    <div class="row">
+      <div class="col s12">
+        <% if current_user.is_admin? %>
+        <h4>Open Invoices</h4>
+        <% end %>
+      </div>
+    </div>
+  </div>       
+  <div class="row">
+    <div class="col s12">
+     Hide/display columns:<br>
+      <a class="toggle-visa" data-column="0">Date Completed</a>
+      -
+      <a class="toggle-visa" data-column="1">Date Invoiced</a>
+      -
+      <a class="toggle-visa" data-column="2">Anticipated Payment Date</a>
+      -
+      <a class="toggle-visa" data-column="3">AFS Price</a>
+      -
+      <a class="toggle-visa" data-column="4">Client</a>
+      -
+      <a class="toggle-visa" data-column="5">Client Email</a>
+      -
+      <a class="toggle-visa" data-column="6">Property</a>
+      -
+      <a class="toggle-visa" data-column="7">Category</a>
+      -
+      <a class="toggle-visa" data-column="8">Invoice #</a>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col s12'>
+      <table id='job_invoice_table' class="clickable display striped row-border nowrap">
+        <thead>
+          <tr>
+            <th>Date Completed</th>
+            <th>Date Invoiced</th>
+            <th>Anticipated Payment Date</th>
+            <th>AFS Price</th>
+            <th>Client</th>
+            <th>Client Email</th>
+            <th>Property</th>
+            <th>Category</th>
+            <th>Invoice #</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @jobs.each do |job| %>
+            <tr data-link="<%= job_path(job) %>">
+              <% if job.date_completed.present? %>
+              <td><%= job.date_completed.strftime('%m/%e/%Y') %></td>
+              <% else %>
+              <td>None</td>
+              <% end %>
+
+              <% if job.date_invoiced.present? and job.payment_late %>
+              <td class='red'><%= job.date_invoiced.strftime('%m/%e/%Y') %></td>
+              <% elsif job.date_invoiced.present? and !job.payment_late %>
+              <td class='blue'><%= job.date_invoiced.strftime('%m/%e/%Y') %></td>
+              <% elsif !job.date_completed %>
+              <td>Not billed</td>
+              <% else %>
+              <td>Not invoiced.</td>
+              <% end %>
+
+              <% if job.anticipated_payment_date.present? and job.payment_late %>
+                <td class='red'><%= job.anticipated_payment_date.strftime('%m/%e/%Y') %></td>
+              <% elsif job.anticipated_payment_date.present? and !job.payment_late %>
+              <td class='blue'><%= job.anticipated_payment_date.strftime('%m/%e/%Y') %></td>
+              <% elsif !job.date_completed %>
+                <td>Not billed</td>
+              <% else %>
+                <td>No anticipated invoice date.</td>
+              <% end %>
+
+              <td><%= number_to_currency(job.afs_price) %></td>
+
+              <% if job.client.present? %>
+                <td><%= job.client.name %></td>
+              <% else %>
+                <td>No client</td>
+              <% end %>
+
+              <% if job.client.present? %>
+                <td><%= job.client.email %></td>
+              <% else %>
+                <td>No client email</td>
+              <% end %>
+
+              <% if job.property.present? %>
+              <td><%= job.property.address %></td>
+              <% else %>
+              <td>No property</td>
+              <% end %>
+
+              <%if job.job_category.present? %>
+              <td><%= job.job_category.name %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <td><%= job.invoice %></td>
+              
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <% if current_user.is_admin? %>
+    <div class='row'>
+      <div class='col sm12'>
+        <div class='actions waves-effect waves-light btn'>
+      <%= button_to 'New Job', new_job_path, method: :get %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+</section>

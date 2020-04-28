@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  street_number: MyString
+  street_name: MyString
+  suite: MyString
+  city: MyString
+  zip: MyString
+  bldg_sqr_feet: 1
+  lot_sqr_feet: 1
+  lot_acreage: 9.99
+  year_built: 1
+  notes: MyText
+  lockbox_code: MyString
+
+two:
+  street_number: MyString
+  street_name: MyString
+  suite: MyString
+  city: MyString
+  zip: MyString
+  bldg_sqr_feet: 1
+  lot_sqr_feet: 1
+  lot_acreage: 9.99
+  year_built: 1
+  notes: MyText
+  lockbox_code: MyString

@@ -1,0 +1,27 @@
+<% if notice.present? %>
+<div class="notice-area container teal accent-3">
+  <div class="row">
+        <div class="col s12">
+      <p id="notice" class=""><%= notice %></p>
+      </div>
+    </div>
+</div>
+<% end %>
+<% if alert.present? %>
+<div class="error-area container red">
+  <div class="row">
+        <div class="col s12">
+      <p id="notice" class=""><%= alert %></p>
+      </div>
+    </div>
+</div>
+<% end %>
+
+<div class="section container">
+    <div class="row">
+    	<div class="col s12 m8 offset-m2 l8 offset-l2 ">
+    	<h3>New Event</h3>
+    	</div>
+    </div>
+    
+<%= render 'form' %>

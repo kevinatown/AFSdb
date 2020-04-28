@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_incurred: 2016-06-26 18:36:10
+  vendor_name: MyString
+  vendor_location: MyString
+  description: MyString
+  ammount: 9.99
+  notes: 
+
+two:
+  date_incurred: 2016-06-26 18:36:10
+  vendor_name: MyString
+  vendor_location: MyString
+  description: MyString
+  ammount: 9.99
+  notes: 

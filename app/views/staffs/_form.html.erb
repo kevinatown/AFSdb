@@ -1,0 +1,113 @@
+<%= form_for(@staff) do |f| %>
+  <% if @staff.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@staff.errors.count, "error") %> prohibited this staff from being saved:</h2>
+
+      <ul>
+      <% @staff.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="input-field col s6 m4">
+      <%= f.label :f_name, 'First Name' %><br>
+      <%= f.text_field :f_name %>
+  </div>
+    <div class="input-field col s6 m2">
+      <%= f.label :m_name,'Middle Name' %><br>
+      <%= f.text_field :m_name %>
+    </div>
+    <div class="input-field col s10 m4">
+      <%= f.label :l_name, 'Last Name' %><br>
+      <%= f.text_field :l_name %>
+    </div>
+    <div class="input-field col s2">
+    <br>
+      <%= f.check_box :is_admin %>
+      <%= f.label :is_admin %>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :email %><br>
+      <%= f.text_field :email %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :phone %><br>
+      <%= f.text_field :phone %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s3 m2">
+      <%= f.label :street_number, "Number" %><br>
+      <%= f.text_field :street_number %>
+    </div>
+    <div class="input-field col s9 m6 ">
+      <%= f.label :street_name %><br>
+      <%= f.text_field :street_name %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:streetdir_id, Streetdir.all, :id, :name, {prompt: "Street Dir?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:street_type_id, StreetType.all, :id, :name, {prompt: "Street Type?"}, {class: ""}) %>
+    </div>
+  </div>
+  <div class="row">  
+    <div class="input-field col s3 m2">
+      <%= f.label :suite %><br>
+      <%= f.text_field :suite %>
+    </div>
+    <div class="input-field col s9 m6">
+      <%= f.label :city %><br>
+      <%= f.text_field :city %>
+    </div>
+    <div class="input-field col s6 m2">
+      <br>
+      <%= f.collection_select(:state_id, State.all, :id, :name, {prompt: "State?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s6 m2">
+      <%= f.label :zip %><br>
+      <%= f.text_field :zip %>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="input-field col s6 m4">
+      <%= f.label :hire_date %><br>
+      <%= f.text_field :hire_date, class: "datepicker" %>
+    </div>
+    <div class="input-field col s6 m4">
+      <%= f.label :termination_date %><br>
+      <%= f.text_field :termination_date, class: "datepicker" %>
+    </div>
+    <div class="input-field col s6 m4">
+      <%= f.label :hourly_wage %><br>
+      <%= f.text_field :hourly_wage %>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :skills %><br>
+      <%= f.text_area :skills, class: 'materialize-textarea' %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.label :notes %><br>
+      <%= f.text_area :notes, class: 'materialize-textarea' %>
+    </div>
+  </div>
+
+    <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit %>
+    </div>
+    </div>
+    </div>
+<% end %>

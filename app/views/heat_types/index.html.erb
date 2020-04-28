@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Heat Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @heat_types.each do |heat_type| %>
+      <tr>
+        <td><%= heat_type.name %></td>
+        <td><%= link_to 'Show', heat_type %></td>
+        <td><%= link_to 'Edit', edit_heat_type_path(heat_type) %></td>
+        <td><%= link_to 'Destroy', heat_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Heat type', new_heat_type_path %>

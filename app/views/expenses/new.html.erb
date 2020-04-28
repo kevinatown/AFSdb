@@ -1,0 +1,17 @@
+<div class="section container">
+    <div class="row">
+    	<div class="col s12 m8 offset-m2 l8 offset-l2 ">
+			<h5>New Expense</h5>
+		</div>
+	</div>
+
+<%= render 'form' %>
+
+<div class="row">
+		<div class='col s6 '>
+			<div class="modal-action modal-close waves-effect waves-green btn center-align">
+			<%= button_to 'Back', expenses_path, method: :get %>
+			</div>
+		</div>
+	</div>
+</div>		

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event_start: 2016-06-26 18:05:03
+  event_finish: 2016-06-26 18:05:03
+  description: MyText
+  staff_attending: 1
+  notes: 1
+
+two:
+  event_start: 2016-06-26 18:05:03
+  event_finish: 2016-06-26 18:05:03
+  description: MyText
+  staff_attending: 1
+  notes: 1

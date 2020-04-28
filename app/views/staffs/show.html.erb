@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>F name:</strong>
+  <%= @staff.f_name %>
+</p>
+
+<p>
+  <strong>M name:</strong>
+  <%= @staff.m_name %>
+</p>
+
+<p>
+  <strong>L name:</strong>
+  <%= @staff.l_name %>
+</p>
+
+<p>
+  <strong>Skills:</strong>
+  <%= @staff.skills %>
+</p>
+
+<p>
+  <strong>Limitations:</strong>
+  <%= @staff.limitations %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @staff.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @staff.phone %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @staff.address %>
+</p>
+
+<p>
+  <strong>Hire date:</strong>
+  <%= @staff.hire_date %>
+</p>
+
+<p>
+  <strong>Termination date:</strong>
+  <%= @staff.termination_date %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @staff.position %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @staff.notes %>
+</p>
+
+<p>
+  <strong>Hourly wage:</strong>
+  <%= number_to_currency(@staff.get_rate) %>
+</p>
+
+<p>
+  <strong>Annual salary:</strong>
+  <%= @staff.annual_salary %>
+</p>
+
+
+<%= link_to 'Edit', edit_staff_path(@staff) %> |
+<%= link_to 'Back', staffs_path %>

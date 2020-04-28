@@ -1,0 +1,484 @@
+<section id="job_show">  
+  <div class="section container">
+    
+    <% if @job.date_due.present? and DateTime.now > @job.date_due and !@job.date_completed.present? %>
+      <div class="row red">
+        <div class='col s12'>
+        <h5><strong>This job is past due!</strong></h5>
+        </div>
+      </div>
+    <% end %>
+    <% if @job.afs_price.present? and @job.percent_profit > 50 and @job.percent_profit < 70 %>
+      <div class="row">  
+        <div class='col s12 yellow'>
+          <h5><strong>This job is costing more than 30% of the price!</strong></h5>
+        </div>
+      </div>  
+      <% elsif  @job.afs_price.present? and @job.percent_profit <= 50 %>
+      <div class="row">
+        <div class='col s12 red'>
+          <h5><strong>This job is costing <b><%= number_to_percentage( 100 - @job.percent_profit, precision: 0) %></b> of the price!</strong></h5>
+        </div>
+      </div>
+    <% end %> 
+
+    <% if current_user.is_admin? %>
+      <%= link_to 'Generate Invoice', invoice_path(@job) %> |
+      <%= link_to 'Edit', edit_job_path(@job) %> |
+      <%= link_to 'Back', jobs_path %>
+    <% else %>
+      <%= link_to 'Back', jobs_path %>
+    <% end %>
+
+    <div class='row'>
+      <div class="col s3 m1">
+        <p>
+          <%= @job.invoice %>
+        </p> 
+      </div>
+      <div class="col s9 m5">
+        <p>
+        <% if @job.property.present? %>
+          <%= @job.property.address %>
+        <% else %>
+          This job has no property associated with it.
+        <% end %> 
+        </p> 
+      </div>
+      <div class="col s6 m3">
+        
+        <% if @job.status == 0 %>
+          <p>Closed</p>
+        <% elsif  @job.status == 1 %>
+          <p>Bid</p>
+        <% elsif @job.status == 2 %>
+          <p>Approved</p>
+        <% end %>
+
+      </div>
+      <div class="col s6 m3">
+        <p>
+          <strong>Date completed:</strong><br>
+          <% if @job.date_completed.present? %>
+          <%= @job.date_completed.strftime('%m/%e/%Y') %>
+        </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <% if @job.job_category.present? %>
+          <%= @job.job_category.name %>
+        <% else %>
+          <p>This job has no category associated with it.</p>
+        <% end %>
+      </div>
+      <div class="col s6">
+        <% if @job.job_subcategory.present? %>
+          <%= @job.job_subcategory.name %>
+        <% else %>
+          <p>This job has no subcategory associated with it.</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <% if @job.client.present? %>
+          <p>
+          <strong>Client:</strong><br>
+          <%= link_to @job.client.name, client_path(@job.client) %>
+          </p>
+        <% else %>
+          <p>This job has no client associated with it.</p>
+        <% end %>
+      </div>
+      <div class="col s6">
+        <% if @job.contact.present? %>
+          <p>
+          <strong>Contact:</strong><br>
+          <%= link_to @job.contact.fullname, contact_path(@job.contact) %>
+          </p>
+        <% else %>
+          <p>This job has no contact associated with it.</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row"> 
+      <div class="col s4">   
+        <p>
+          <strong>Date approved:</strong><br>
+          <% if  @job.date_approved.present? %>
+          <%= @job.date_approved.strftime('%m/%e/%Y') %>
+          <% else %>
+          No date selected.
+          <% end %>
+        </p>
+      </div>
+      <div class="col s4">
+        <p>
+          <strong>Date assigned:</strong><br>
+          <% if @job.date_assigned.present? %>
+          <%= @job.date_assigned.strftime('%m/%e/%Y') %>
+          <% else %>
+          No date selected.
+          <% end %>
+        </p>
+      </div>
+      <% if @job.date_due.present? and DateTime.now > @job.date_due and !@job.date_completed.present?%>
+      <div class="col s4 red">
+      <% else %>
+      <div class="col s4">
+      <% end %>
+        <p>
+          <strong>Date due:</strong><br>
+          <% if @job.date_due.present? %>
+          <%= @job.date_due.strftime('%m/%e/%Y') %>
+          <% else %>
+          No date selected.
+          <% end %>
+        </p>
+      </div>
+      
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="col s6">
+        <p>
+          <strong>Staff:</strong><br>
+          <% if @job.staff.present? %>
+          <%= @job.staff.map {|s| s.fullname}.join(', ') %>
+          <% end %>
+        </p>
+      </div>
+      <div class="col s6">
+        <p>
+          <strong>Contractor:</strong><br>
+          <% if @job.contractor.present? %>
+          <%= @job.contractor.name %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="col s12">
+        <p>
+          <strong>Tasks:</strong><br>
+          <%= simple_format(@job.tasks) %>
+        </p>
+      </div>
+    </div>
+    
+
+   <% if current_user.is_admin? %>
+   <div class="divider"></div>
+    <div class="row">
+      <div class="col s6 m3">
+        <p>
+        <strong>Afs price:</strong><br>
+        <% if @job.afs_price.present? %>
+        <%= number_to_currency(@job.afs_price) %>
+        <% else %>
+        No price
+        <% end %>
+        </p>
+      </div>
+      <div class='col s6 m3'>
+      <p>
+      <strong>Total Spending:</strong><br>
+      <%= number_to_currency(@job.total_expense) %>
+      </p>
+      </div>
+      <% if @job.afs_price.present? and @job.percent_profit > 70 %>
+      <div class='col s6 m3 green'>
+      <% elsif @job.afs_price.present? and @job.percent_profit > 50 %>
+      <div class='col s6 m3 yellow'>
+      <% else %>
+      <div class='col s6 m3 red'>
+      <% end %>
+      <p>
+      <strong>Total Profit:</strong><br>
+      <% if @job.afs_price.present? %>
+      <%= number_to_currency(@job.profit) %>
+      <% else %>
+      No afs price
+      <% end %>
+      </p>
+      </div>
+      <% if @job.afs_price.present? and @job.percent_profit > 70 %>
+      <div class='col s6 m3 green'>
+      <% elsif @job.afs_price.present? and @job.percent_profit > 50 %>
+      <div class='col s6 m3 yellow'>
+      <% else %>
+      <div class='col s6 m3 red'>
+      <% end %>
+      <p>
+      <strong>Total Profit%:</strong><br>
+      <% if @job.afs_price.present? %>
+      <%= number_to_percentage(@job.percent_profit, precision: 2) %>
+      <% else %>
+      No afs price
+      <% end %>
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6 m3">
+        <p>
+          <strong>Contractor price:</strong><br>
+          <% if @job.contractor_price.present? %>
+          <%= number_to_currency(@job.contractor_price) %>
+          <% else %>
+          No price
+          <% end %>
+        </p>
+      </div>
+      <div class="col s6 m3">
+        <p>
+          <strong>Wages paid:</strong><br>
+          <%= number_to_currency(@job.get_wages_paid) %>
+        </p>
+      </div>
+      <div class="col s6 m3">
+        <p>
+          <strong>Materials cost:</strong><br>
+          <% if @job.materials_cost.present? %>
+          <%= number_to_currency(@job.materials_cost) %>
+          <% else %>
+          <%= number_to_currency(0) %>
+          <% end %>
+        </p>
+      </div>
+      <div class="col s6 m3">
+        <p>
+          <strong>Misc cost:</strong><br>
+          <% if @job.misc_cost.present? %>
+          <%= number_to_currency(@job.misc_cost) %>
+          <% else %>
+          <%= number_to_currency(0) %>
+          <% end %> 
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div> 
+    <div class="row">
+      <div class="col s4">
+        <p>
+          <strong>Date invoiced:</strong><br>
+          <% if @job.date_invoiced.present? %>
+          <%= @job.date_invoiced.strftime('%m/%e/%Y') %>
+          <% else %>
+          Not invoiced yet.
+          <% end %>
+        </p>
+      </div>
+      <div class="col s4">
+        <p>
+          <strong>Anticipated payment date:</strong><br>
+          <% if @job.anticipated_payment_date.present? %>
+          <%= @job.anticipated_payment_date.strftime('%m/%e/%Y') %>
+          <% else %>
+          Not invoiced yet.
+          <% end %>
+        </p>
+      </div>
+      <div class="col s4">
+        <p>
+          <strong>Date payment recv:</strong><br>
+          <% if @job.date_payment_recv.present? %>
+          <%= @job.date_payment_recv.strftime('%m/%e/%Y') %>
+          <% else %>
+          Not invoiced yet.
+          <% end %>
+        </p>
+      </div>
+    </div>  
+    <div class="divider"></div>
+    <div class="row">
+      <div class="col s6">  
+        <p>
+        <strong>Payment:</strong><br>
+        <%= number_to_currency(@job.payment) %>
+        </p>
+       </div>
+       <div class="col s6">
+        <p>
+        <strong>Actual Profit:</strong><br>
+        <% if @job.payment.present? %>
+        <%= number_to_currency(@job.actual_profit)  %>
+        <% else %>
+        No payment received.
+        <% end %>
+        </p>
+       </div> 
+    </div>
+    <div class="row">
+      <div class="col s6"> 
+      <p>
+      <strong>Client check number:</strong>
+      <%= @job.client_check_number %>
+      </p>
+      </div>
+    </div>  
+   <% end %>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="col s12">
+      <p>
+        <strong>Notes for office staff:</strong><br>
+        <%= simple_format(@job.notes_for_office_staff) %>
+      </p>
+    </div>
+    <div class="col s12">
+      <p>
+        <strong>Notes for field staff:</strong><br>
+        <%= simple_format(@job.notes_for_field_staff) %>
+      </p>
+    </div>
+    <div class="col s12">
+      <p>
+        <strong>Notes for client:</strong><br>
+        <%= simple_format(@job.notes_for_client) %>
+      </p>
+    </div>
+  </div>
+  <% if current_user.is_admin? %>
+    <div class="divider"></div> 
+    <div class='row'>
+      <div class="col s8">
+        <h5>Timesheets for this job</h5>
+      </div>
+      <div class="col s4">
+        <div class="actions waves-effect waves-light btn" >
+          <%= button_to 'New Timesheet', {controller:"time_clocks", action: "new_job", job: @job.id}, method: :post%>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <table id="job_tc_table" class="clickable display responsive no-wrap">
+           <thead>
+          <tr>
+            <th>Staff</th>
+            <th>Time in</th>
+            <th>Time out</th>
+            <th>Notes</th>
+            <th>Wages paid</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @timeclocks.each do |time_clock| %>
+            <tr data-link="<%= time_clock_path(time_clock) %>">
+              <% if time_clock.staff.present? %>
+              <td><%= time_clock.staff.fullname %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <% if time_clock.time_in.present? %>
+              <td><%= time_clock.time_in.strftime('%b %e, %Y %I:%M %p') %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              
+              <% if time_clock.time_out.present? %>
+              <td><%= time_clock.time_out.strftime('%b %e, %Y %I:%M %p') %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+
+              <% if time_clock.notes.present? %>
+              <td><%= time_clock.notes %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <td><%= number_to_currency(time_clock.wages_owed) %></td>
+              
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="divider"></div> 
+    <div class='row'>
+      <div class="col s8">
+        <h5>Expenses for this job</h5>
+      </div>
+      <div class="col s4">
+        <div class="actions waves-effect waves-light btn" >
+          <%= button_to 'New Expense', {controller:"expenses", action: "new_job", job: @job.id}, method: :post%>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <table id="job_expense_table" class="clickable display responsive no-wrap">
+           <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Discription</th>
+            <th>Who done it</th>
+            <th>Account Paid From</th>
+            <th>Ammount</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @expenses.each do |exp| %>
+            <tr data-link="<%= expense_path(exp) %>">
+              <% if exp.date_incurred.present? %>
+              <td><%= exp.date_incurred.strftime('%b %e, %Y %I:%M %p') %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <% if exp.expense_type.present? %>
+              <td><%= exp.expense_type.name %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <% if exp.description.present? %>
+              <td><%= exp.description %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+              <% if exp.staff.present? %>
+              <td><%= exp.staff.fullname %></td>
+              <% else %>
+              <td></td>
+              <% end %>
+
+              <% if exp.afs_account.present? %>
+                <td><%= exp.afs_account.name %></td>
+              <% else %>
+               <td>No Account Provided.</td>
+              <% end %>
+
+              <% if exp.amount.present? %>
+              <td><%= number_to_currency(exp.amount) %></td>
+              <% else %>
+              <td><%= number_to_currency(0.00) %> </td>
+              <% end %>
+              
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %> 
+  <div class="row">
+    <div class="col s12">
+    <% if current_user.is_admin? %>
+      <%= link_to 'Generate Invoice', invoice_path(@job) %> |
+      <%= link_to 'Edit', edit_job_path(@job) %> |
+      <%= link_to 'Back', jobs_path %>
+    <% else %>
+      <%= link_to 'Back', jobs_path %>
+    <% end %>
+    </div>
+  </div>  
+  </div>
+</section>

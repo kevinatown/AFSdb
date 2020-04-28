@@ -1,0 +1,22 @@
+<div class="section container">
+    <div class="row">
+    	<div class="col s12 m8 offset-m2 l8 offset-l2 ">
+			<h3>Editing Time Clock</h3>
+		</div>
+	</div>	
+
+<%= render 'form' %>
+
+	<div class="row">
+		<div class='col s6 '>
+			<div class="modal-action modal-close waves-effect waves-green btn center-align">
+			<%= button_to 'Show', @time_clock, method: :get %>
+			</div>
+		</div>
+		<div class='col s6 '>
+			<div class="modal-action modal-close waves-effect waves-green btn center-align">
+			<%= button_to 'Back', time_clocks_path, method: :get %>
+			</div>
+		</div>
+	</div>
+</div>		

@@ -1,0 +1,103 @@
+<section>  
+  <div class="section container">
+    <div class="row">
+      <div class='col s12'> 
+        <h4>Make your payroll selections.</h4>
+      </div>
+    </div>
+    <%= form_for :payroll, url: "payroll" do |f| %>
+      <div class='row'>
+        <div class="input-field col s12">
+          <%= f.collection_select(:staff, Staff.all, :id, :fullname, {prompt: "Who's timesheet?"}, {class: ""}) %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6 m4">
+          <%= f.label 'start_date', 'Start Date' %><br>
+          <%= f.text_field 'start_date', class: "datepicker" %>
+        </div>
+        <div class="input-field col s6 m4">
+          <%= f.label 'end_date', 'End date' %><br>
+          <%= f.text_field 'end_date', class: "datepicker" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <div class="actions waves-effect waves-light btn" >
+            <%= f.submit 'Get Timesheets' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="section container">  
+  <% if @time_clocks.present? %>
+
+    <div class='row'>
+      <div class='col s12'>
+        <table id='payroll_table' class="display responsive no-wrap">
+          <thead>
+            <tr>
+             <%if current_user.is_admin? %>
+              <th>Staff</th>
+              <% end %>
+              <th>Time in</th>
+              <th>Time out</th>
+              <th>Job</th>
+              <th>Job Invoice #</th>
+              <th>Hours</th>
+              <th>Wages Owed</th>
+              <th>More</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @time_clocks.each do |time_clock| %>
+              <tr>
+                <%if current_user.is_admin? %>
+                <% if time_clock.staff.present? %>
+                <td><%= time_clock.staff.fullname %></td>
+                <% else %>
+                <td></td>
+                <% end %>
+                <% end %>
+
+                <td><%= time_clock.time_in.strftime('%m/%e/%Y %I:%M %p') %></td>
+                
+                <% if time_clock.time_out.present? %>
+                <td><%= time_clock.time_out.strftime('%m/%e/%Y %I:%M %p') %></td>
+                <% else %>
+                <td></td>
+                <% end %>
+
+                <% if time_clock.job.present? %>
+                <td><%= time_clock.job.name %></td>
+                <% else %>
+                <td></td>
+                <% end %>
+
+                <td><%= time_clock.invoice %></td>
+
+                <td><%= number_with_precision(time_clock.hours, precision: 2) %> hrs</td>
+
+                <td><%= number_to_currency(time_clock.wages_owed, precision: 2) %></td>
+                <td><%= link_to 'Show', time_clock %>|<%= link_to 'Edit', edit_time_clock_path(time_clock) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <!-- <tfoot>
+            <tr></tr>
+          </tfoot> -->
+        </table>
+      </div>
+    </div>
+  <% else %> 
+    <div class='row'>
+      <div class='col s12'>
+      <p>Please select a time frame to see payroll.</p>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</section>

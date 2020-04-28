@@ -1,0 +1,85 @@
+<%= form_for(@time_clock) do |f| %>
+  <% if @time_clock.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@time_clock.errors.count, "error") %> prohibited this time_clock from being saved:</h2>
+
+      <ul>
+      <% @time_clock.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class='row'>
+    <div class="input-field col s12">
+      <p>
+      <strong>Staff:</strong>
+      <% if @time_clock.staff.present? %>
+      <%= f.text_field :staff, disabled:"disabled" %>
+      <% else %>
+        No staff associated. 
+      <% end %>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+        <p>
+        <strong>Time in:</strong>
+        <% if @time_clock.time_in.present? %> 
+        <%= @time_clock.time_in.strftime('%b %e, %Y %I:%M %p')  %> 
+        <% else %>
+        No time in.
+        <% end %>
+        </p>
+    </div>
+    <div class='col s6'>
+        <% if @time_clock.time_out.present? %>  
+        <p>
+        <strong>Time out:</strong>
+        <%= @time_clock.time_out.strftime('%b %e, %Y %I:%M %p')  %> 
+        </p>
+      <% else %>
+        Still clocked in.
+      <% end %>
+    </div>
+  </div>       
+  <div class='row'>  
+    <div class="input-field col s6 m3">
+      <%= f.label :lat_in %><br>
+      <%= f.text_field :lat_in, disabled:"disabled"  %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :long_in %><br>
+      <%= f.text_field :long_in, disabled:"disabled" %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :lat_out %><br>
+      <%= f.text_field :lat_out, disabled:"disabled" %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :long_out %><br>
+      <%= f.text_field :long_out, disabled:"disabled" %>
+    </div>
+  </div>
+  <div class='row'> 
+    <div class="input-field col s12">
+      <%= f.collection_select(:job, Job.where("status = 2 or status = 1"), :id, :name, {prompt: "What job?"}, {class: "autocomplete", id: "autocomplete-jobs", style: 'width: 100%;'}) %>
+    </div>
+  </div>
+  <div class='row'>  
+  <div class="input-field col s12">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes, class:"materialize-textarea" %>
+  </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit 'Submit' %>
+    </div>
+    </div>
+  </div>  
+
+<% end %>

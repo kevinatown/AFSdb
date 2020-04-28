@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  billing_start: 2016-06-06
+  billing_end: 2016-06-06
+  ammount: 9.99
+  datedue: 2016-06-06
+  pp_date: 2016-06-06
+  pp_ammount: 9.99
+  date_paid: 2016-06-06
+  ammount_paid: 9.99
+
+two:
+  billing_start: 2016-06-06
+  billing_end: 2016-06-06
+  ammount: 9.99
+  datedue: 2016-06-06
+  pp_date: 2016-06-06
+  pp_ammount: 9.99
+  date_paid: 2016-06-06
+  ammount_paid: 9.99

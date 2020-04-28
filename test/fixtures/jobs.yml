@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_approved: 2016-06-07 16:39:40
+  date_due: 2016-06-07 16:39:40
+  tasks: MyText
+  date_completed: 2016-06-07 16:39:40
+  afs_price: 9.99
+  contractor_price: 9.99
+  wages_paid: 9.99
+  materials_cost: 9.99
+  misc_cost: 9.99
+  date_invoiced: 2016-06-07 16:39:40
+  anticipated_payment_date: 2016-06-07 16:39:40
+  invoice_number: 1
+  date_payment_recv: 2016-06-07 16:39:40
+  payment: 9.99
+  client_check_number: 1
+  job_closed: false
+  notes_for_office_staff: MyText
+  notes_for_feild_staff: MyText
+  notes_for_client: MyText
+
+two:
+  date_approved: 2016-06-07 16:39:40
+  date_due: 2016-06-07 16:39:40
+  tasks: MyText
+  date_completed: 2016-06-07 16:39:40
+  afs_price: 9.99
+  contractor_price: 9.99
+  wages_paid: 9.99
+  materials_cost: 9.99
+  misc_cost: 9.99
+  date_invoiced: 2016-06-07 16:39:40
+  anticipated_payment_date: 2016-06-07 16:39:40
+  invoice_number: 1
+  date_payment_recv: 2016-06-07 16:39:40
+  payment: 9.99
+  client_check_number: 1
+  job_closed: false
+  notes_for_office_staff: MyText
+  notes_for_feild_staff: MyText
+  notes_for_client: MyText

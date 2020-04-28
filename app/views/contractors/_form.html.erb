@@ -1,0 +1,71 @@
+<%= form_for(@contractor) do |f| %>
+  <% if @contractor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contractor.errors.count, "error") %> prohibited this contractor from being saved:</h2>
+
+      <ul>
+      <% @contractor.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :address %><br>
+      <%= f.text_field :address %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :city %><br>
+      <%= f.text_field :city %>
+    </div>
+    <div class="input-field col s3">
+      <%= f.label :state %><br>
+      <%= f.collection_select(:state_id, State.all, :id, :name, {prompt: "State?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s3">
+      <%= f.label :zip %><br>
+      <%= f.text_field :zip %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :phone %><br>
+      <%= f.text_field :phone %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :fax %><br>
+      <%= f.text_field :fax %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :email %><br>
+      <%= f.text_field :email %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :website %><br>
+      <%= f.text_field :website %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes %><br>
+      <%= f.text_area :notes, class: 'materialize-textarea' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+      <div class="actions waves-effect waves-light btn" >
+        <%= f.submit %>
+      </div>
+    </div>
+  </div>
+<% end %>

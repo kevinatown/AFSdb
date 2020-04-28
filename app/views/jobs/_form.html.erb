@@ -1,0 +1,277 @@
+<%= form_for(@job) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h5><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h5>
+
+      <ul>
+      <% @job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   <div class="row">
+      <div class='col s6'>
+        <div class="actions waves-effect waves-light btn" >
+          <%= f.submit %>
+        </div>
+      </div>
+    </div>
+
+
+  <% if current_user.is_admin? %>
+  <div class="row">
+    <div class="input-field col s12 m6">
+    <%= f.collection_select(:property_id, Property.where(is_closed: false), :id, :address, {prompt: "Where at?"}, {class: "autocomplete", id: "autocomplete-props-for-jobs", style: 'width: 100%;'}) %>
+    </div>
+    <div class="input-field col s6 m2">
+    <%= f.collection_select(:job_category_id, JobCategory.order(:name).all, :id, :name, {prompt: "Category?"}, {class: "autocomplete", id: "autocomplete-cats-for-jobs", style: 'width: 100%;'}) %>
+    </div>
+    <div class="input-field col s6 m2">
+    <%= f.collection_select(:job_subcategory_id, JobSubcategory.order(:name).all, :id, :name, {prompt: "Subcategory?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s6 m2">
+      <%= f.radio_button :status, 1, value: 1 %>
+      <label for='job_status_1'>Bid</label>
+      <%= f.radio_button :status, 2, value: 2 %>
+      <label for='job_status_2'>Approved</label>
+      <%= f.radio_button :status, 0, value: 0%>
+      <label for='job_status_0'>Closed</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12 m6">
+      <%= f.collection_select(:client_id, Client.order(:name).all, :id, :name, {prompt: "Client"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s12 m6">
+      <%= f.collection_select(:contact_id, Contact.order(:l_name).all, :id, :fullname, {prompt: "Contact"}, {class: ""}) %>
+    </div>
+  </div>
+
+  <div class="divider"></div> 
+  <div class='row'>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_approved %><br>
+      <% if @job.date_approved.present? %>
+      <%= f.text_field :date_approved, class: "datepicker", value:@job.date_approved.strftime('%e %B, %Y') %>
+      <% else %>
+      <%= f.text_field :date_approved, class: "datepicker" %>
+      <% end %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_assigned %><br>
+      <% if @job.date_assigned.present? %>
+      <%= f.text_field :date_assigned, class: "datepicker", value: @job.date_assigned.strftime('%e %B, %Y') %>
+      <% else %>
+      <%= f.text_field :date_assigned, class: "datepicker" %>
+      <% end %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_due %><br>
+      <% if @job.date_due.present? %>
+      <%= f.text_field :date_due, class: "datepicker", value: @job.date_due.strftime('%e %B, %Y') %>
+      <% else %>
+      <%= f.text_field :date_due, class: "datepicker" %>
+      <% end %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_completed %><br>
+      <% if @job.date_completed.present? %>
+      <%= f.text_field :date_completed, class: "datepicker", value: @job.date_completed.strftime('%e %B, %Y') %>
+      <% else %>
+      <%= f.text_field :date_completed, class: "datepicker" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="divider"></div> 
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :tasks %><br>
+      <%= f.text_area :tasks, class: 'materialize-textarea' %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class='row'>
+    <div class="input-field col s12">
+    <% if @job.staff.present? %>
+        <%= f.collection_select(:staff, Staff.order(:l_name).all, :id, :fullname, {selected: @job.staff.map{|s| s.id},prompt: "Who's going?"}, {class: "", multiple: true}) %>
+      <% else %>
+        <%= f.collection_select(:staff, Staff.order(:l_name).all, :id, :fullname, {prompt: "Who's going?"}, {class: "", multiple: true}) %>
+      <% end %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="input-field col s12">
+      <% if @job.contractor.present? %>
+        <%= f.collection_select(:contractor, Contractor.order(:name).all, :id, :name, {selected: @job.contractor.id, prompt: "Contractor?"}, {class: ""}) %>
+      <% else %>
+        <%= f.collection_select(:contractor, Contractor.order(:name).all, :id, :name, {prompt: "Contractor?"}, {class: ""}) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="divider"></div> 
+  <div class='row'>  
+    <div class="input-field col s4 l2 offset-l1">
+      <%= f.label :afs_price %><br>
+      <%= f.text_field :afs_price %>
+    </div>
+    <div class="input-field col s4 l2">
+      <%= f.label :contractor_price %><br>
+      <%= f.text_field :contractor_price %>
+    </div>
+    <div class="input-field col s4 l2">
+      <%= f.label :wages_paid %><br>
+      <%= f.text_field :wages_paid, readonly: true %>
+    </div>
+    <div class="input-field col s4 l2">
+      <%= f.label :materials_cost %><br>
+      <%= f.text_field :materials_cost, readonly: true %>
+    </div>
+    <div class="input-field col s4 l2">
+      <%= f.label :misc_cost %><br>
+      <%= f.text_field :misc_cost %>
+    </div>
+   </div>
+   <div class="divider"></div> 
+   <div class='row'> 
+    <div class="input-field col s6 m4">
+      <%= f.label :date_invoiced %><br>
+      <% if @job.date_invoiced.present? %>
+      <%= f.text_field :date_invoiced, class: "datepicker", value: @job.date_invoiced.strftime('%e %B, %Y') %>
+      <% else %>
+      <%= f.text_field :date_invoiced, class: "datepicker" %>
+      <% end %>
+    </div>
+    <div class="input-field col s6 m4">
+      <%= f.label :anticipated_payment_date %><br>
+      <%= f.text_field :anticipated_payment_date, class: "datepicker" %>
+    </div>
+    <div class="input-field col s6 m4">
+      <%= f.label :date_payment_recv %><br>
+      <%= f.text_field :date_payment_recv, class: "datepicker" %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.label :payment %><br>
+      <%= f.text_field :payment %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :client_check_number %><br>
+      <%= f.number_field :client_check_number %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_office_staff %><br>
+      <%= f.text_area :notes_for_office_staff, class: 'materialize-textarea' %>
+    </div>
+    </div>
+    <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_field_staff %><br>
+      <%= f.text_area :notes_for_field_staff, class: 'materialize-textarea' %>
+    </div>
+    </div>
+    <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_client %><br>
+      <%= f.text_area :notes_for_client, class: 'materialize-textarea' %>
+    </div>
+    </div>
+
+    
+    <% else %>
+
+    <div class="row">
+    <div class="input-field col s12 m4">
+    <%= f.collection_select(:property, Property.order(:name).all, :id, :address, {value: @job.property.address, prompt: "Where at?"}, {class: "", readonly: true, disabled: true}) %>
+    </div>
+    <div class="input-field col s6 m4">
+    <%= f.collection_select(:job_category, JobCategory.order(:name).all, :id, :name, {value: @job.job_category, prompt: "Category?"}, {class: "", readonly: true, disabled: true}) %>
+    </div>
+    <div class="input-field col s6 m4">
+    <%= f.collection_select(:job_subcategory, JobSubcategory.order(:name).all, :id, :name, {value:@job.job_subcategory, prompt: "Subcategory?"}, {class: "", readonly: true, disabled: true}) %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class='row'>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_approved %><br>
+      <%= f.text_field :date_approved, class: "datepicker", readonly: true, disabled: true %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_assigned %><br>
+      <%= f.text_field :date_assigned, class: "datepicker", readonly: true, disabled: true %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_due %><br>
+      <%= f.text_field :date_due, class: "datepicker", readonly: true, disabled: true %>
+    </div>
+    <div class="input-field col s6 m3">
+      <%= f.label :date_completed %><br>
+      <%= f.text_field :date_completed, class: "datepicker", readonly: true, disabled: true %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :tasks %><br>
+      <%= f.text_area :tasks, class: 'materialize-textarea', readonly: true %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.collection_select(:staff, Staff.order(:l_name).all, :id, :fullname, {prompt: "Who's going?"}, {class: "", multiple: true, readonly: true, disabled: true}) %>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="input-field col s12">
+      <%= f.collection_select(:contractor, Contractor.order(:name).all, :id, :name, {prompt: "Contractor?"}, {class: "", readonly: true, disabled: true }) %>
+    </div>
+  </div>
+  <div class="divider"></div> 
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_office_staff %><br>
+      <%= f.text_area :notes_for_office_staff, class: 'materialize-textarea' %>
+    </div>
+    </div>
+    <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_field_staff %><br>
+      <%= f.text_area :notes_for_field_staff, class: 'materialize-textarea', readonly: true %>
+    </div>
+    </div>
+    <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :notes_for_client %><br>
+      <%= f.text_area :notes_for_client, class: 'materialize-textarea', readonly: true %>
+    </div>
+    </div>
+    <% end %>
+
+    <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit %>
+    </div>
+    </div>
+    </div>
+
+
+<% end %>
+
+<script type="text/javascript">
+  $(function () {
+  $('.datepicker').pickadate({
+    selectMonths: true, 
+    selectYears: 15 
+    });
+   });
+</script>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  car: MyString
+  service_date: 2016-06-26 17:50:39
+  service_vendor: MyString
+  service_completed: false
+  cost: 9.99
+  notes: MyText
+
+two:
+  car: MyString
+  service_date: 2016-06-26 17:50:39
+  service_vendor: MyString
+  service_completed: false
+  cost: 9.99
+  notes: MyText

@@ -1,0 +1,92 @@
+<%= form_for(@expense) do |f| %>
+  <% if @expense.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@expense.errors.count, "error") %> prohibited this expense from being saved:</h2>
+
+      <ul>
+      <% @expense.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class='row'>
+    <% if current_user.is_admin? %>
+      <% if @expense.staff.present? %>
+        <div class="input-field col s6">
+          <%= f.collection_select(:staff, Staff.order(:l_name).all, :id, :fullname, {prompt: "Who incured?", selected: @expense.staff.id}, {class: "autocomplete", id: "autocomplete-staff-for-exp", style: 'width: 100%;'}) %>
+        </div>
+      <% else %>
+        <div class="input-field col s6">
+          <%= f.collection_select(:staff, Staff.order(:l_name).all, :id, :fullname, {prompt: "Who incured?"}, {class: ""}) %>
+        </div>
+      <% end %>
+    <% else %>
+    <div class="input-field col s6">
+        <%= f.label :staff, class:'active' %><br>
+        <%= f.text_field :staff, {value: @expense.staff.fullname, readonly: true} %>
+    </div>
+  <% end %> 
+    <div class="input-field col s6">
+    <% if @expense.job.present? %>
+      <%= f.collection_select(:job_id, Job.where('status > 0'), :id, :name, {selected: @expense.job.id, prompt: "What job?"}, {class: "autocomplete", id: "autocomplete-job-for-exp", style: 'width: 100%;'}) %>
+    <% else %>
+      <%= f.collection_select(:job_id, Job.where('status > 0'), :id, :name, {prompt: "What job?"}, {class: "autocomplete", id: "autocomplete-job-for-exp", style: 'width: 100%;'}) %>
+    <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s4">
+      <br>
+      <%= f.collection_select(:expense_type_id, ExpenseType.order(:name).all, :id, :name, {prompt: "Expense Type?"}, {class: ""}) %>
+    </div>
+    <div class="input-field col s8">
+      <%= f.label :description, "Discription" %><br>
+      <%= f.text_field :description %>
+    </div>
+  </div> 
+  <div class='row'>
+    <div class="input-field col s6 m4">
+      <%= f.label :date_incurred %><br>
+      <% if @expense.date_incurred.present? %>
+        <%= f.text_field :date_incurred, {value: @expense.date_incurred.strftime('%e %B, %Y'), class: "datepicker"} %>
+      <% else %>
+        <%= f.text_field :date_incurred, { class: "datepicker"} %>
+      <% end %>
+    </div>
+    <div class="input-field col s6 m4">
+      <%= f.label :amount %><br>
+      <%= f.text_field :amount %>
+    </div>
+    <div class="input-field col s6 m4">
+      <% if @expense.afs_account.present? %>
+        <%= f.collection_select(:afs_account_id, AfsAccount.all(), :id, :name, {selected: @expense.afs_account.id, prompt: "Paid from Which Acount?"}, {class: ""}) %>
+      <% else %>
+        <%= f.collection_select(:afs_account_id, AfsAccount.all(), :id, :name, {prompt: "Paid from Which Acount?"}, {class: ""}) %>
+      <% end %>
+    </div>
+  </div>
+  <div class='row'>  
+    <div class="input-field col s6">
+      <%= f.label :vendor_name %><br>
+      <%= f.text_field :vendor_name %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :vendor_location %><br>
+      <%= f.text_field :vendor_location %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes, class:"materialize-textarea" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col s6'>
+    <div class="actions waves-effect waves-light btn" >
+      <%= f.submit 'Submit' %>
+    </div>
+    </div> 
+    </div>
+<% end %>

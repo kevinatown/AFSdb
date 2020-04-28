@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'New Staff', new_staff_path %>
+<br>
+
+<section>  
+  <div class="section container">
+    <div class="row">
+      <div class="col s12">
+        <h4>Staffs</h4>
+      </div>
+    </div>
+  </div>       
+  <div class='row'>
+    <div class='col s12'>
+      <table id='staff_table' class="display striped row-border nowrap">
+        <thead>
+          <tr>
+            <th>Active</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Hire date</th>
+            <th>Pay Rate</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @staffs.each do |staff| %>
+            <tr>
+              <td><%= staff.termination_date.present? ? 'No' : 'Yes' %></td>
+              <td><%= staff.fullname %></td>
+              <td><%= staff.phone %></td>
+              <td><%= staff.email %></td>
+              <td><%= staff.address %></td>
+              <td><%= staff.hire_date.present? ? staff.hire_date.strftime('%m/%e/%Y') : '' %></td>
+              <td><%= number_to_currency(staff.get_rate) %></td>
+              <td><%= link_to 'Show', staff %></td>
+              <td><%= link_to 'Edit', edit_staff_path(staff) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<br>
+
+<%= link_to 'New Staff', new_staff_path %>

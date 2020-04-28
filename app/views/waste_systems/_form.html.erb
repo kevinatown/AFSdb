@@ -1,0 +1,21 @@
+<%= form_for(@waste_system) do |f| %>
+  <% if @waste_system.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@waste_system.errors.count, "error") %> prohibited this waste_system from being saved:</h2>
+
+      <ul>
+      <% @waste_system.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

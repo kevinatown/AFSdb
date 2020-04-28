@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Contractor Categories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contractor_categories.each do |contractor_category| %>
+      <tr>
+        <td><%= contractor_category.name %></td>
+        <td><%= link_to 'Show', contractor_category %></td>
+        <td><%= link_to 'Edit', edit_contractor_category_path(contractor_category) %></td>
+        <td><%= link_to 'Destroy', contractor_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Contractor category', new_contractor_category_path %>

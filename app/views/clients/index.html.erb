@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'New Client', new_client_path %>
+<br>
+
+<section>  
+  <div class="section container">
+    <div class="row">
+      <div class="col s12">
+        <h4>Clients</h4>
+      </div>
+    </div>
+  </div>       
+  <div class='row'>
+    <div class='col s12'>
+      <table id='clients_table' class="display striped row-border nowrap">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Phone</th>
+            <th>Fax</th>
+            <th>Email</th>
+            <th>Website</th>
+            <th>Note</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+           <% @clients.each do |client| %>
+            <tr>
+              <td><%= client.name %></td>
+              <td><%= client.address %></td>
+              <td><%= client.city %></td>
+              <td><%= client.state.name %></td>
+              <td><%= client.zip %></td>
+              <td><%= client.phone %></td>
+              <td><%= client.fax %></td>
+              <td><%= client.email %></td>
+              <td><%= client.website %></td>
+              <td><%= client.notes %></td>
+              <td><%= link_to 'Show', client %></td>
+              <td><%= link_to 'Edit', edit_client_path(client) %></td>
+              <td><%= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<br>
+
+<%= link_to 'New Client', new_client_path %>

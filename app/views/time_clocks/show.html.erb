@@ -1,0 +1,100 @@
+<section id="time_clock_show">  
+  <div class="section container">
+  <% if current_user.is_admin? and @time_clock.staff.present? %>
+  <div class='row'>
+    <div class="col s12">
+    <p>
+        <strong>Staff:</strong>
+        <% if @time_clock.staff.present? %>
+        <%= @time_clock.staff.fullname %>
+        <% end %>
+      </p>
+    </div> 
+  </div>
+  <% end %>
+    <div class='row'>
+      <div class="col s12">
+      <p>
+      <strong>Job:</strong>
+      <% if @time_clock.job.present? %>
+      <%= @time_clock.job.name %>
+      <% else %>
+      "No job"
+      <% end %>
+      </p>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="col s6">
+      <p>
+        <strong>Time in:</strong>
+        <% if @time_clock.time_in.present? %>
+        <%= @time_clock.time_in.strftime('%b %e, %Y %I:%M %p') %>
+        <% end %>
+      </p>
+      </div>
+      <div class="col s6">
+      <p>
+        <strong>Time out:</strong>
+        <% if @time_clock.time_out.present? %>
+        <%= @time_clock.time_out.strftime('%b %e, %Y %I:%M %p') %>
+        <% else %>
+        Still clocked in.
+        <% end %>
+      </p>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="col s6 m3">
+      <p>
+        <strong>Lat in:</strong>
+        <%= @time_clock.lat_in %>
+      </p>
+      </div>
+      <div class="col s6 m3">
+      <p>
+        <strong>Long in:</strong>
+        <%= @time_clock.long_in %>
+      </p>
+      </div>
+      <div class="col s6 m3">
+      <p>
+        <strong>Lat out:</strong>
+        <%= @time_clock.lat_out %>
+      </p>
+      </div>
+      <div class="col s6 m3">
+      <p>
+        <strong>Long out:</strong>
+        <%= @time_clock.long_out %>
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">  
+      <p>
+        <strong>Notes:</strong>
+        <%= @time_clock.notes %>
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4">
+      <div class='actions waves-effect waves-light btn'>  
+        <%= button_to 'Edit', edit_time_clock_path(@time_clock), method: :get %>
+      </div>
+      </div>
+      <div class="col s4">
+      <div class='actions waves-effect waves-light btn'>  
+        <%= button_to 'Back', time_clocks_path, method: :get %>
+      </div>
+      </div>
+      <div class="col s4">
+      <div class='actions waves-effect waves-light btn'>
+        <%= button_to 'Destroy', @time_clock, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>

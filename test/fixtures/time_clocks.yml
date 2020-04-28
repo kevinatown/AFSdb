@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time_in: 2016-06-26 21:46:31
+  time_out: 2016-06-26 21:46:31
+  lat_in: 1.5
+  long_in: 1.5
+  lat_out: 1.5
+  long_out: 1.5
+  notes: MyText
+
+two:
+  time_in: 2016-06-26 21:46:31
+  time_out: 2016-06-26 21:46:31
+  lat_in: 1.5
+  long_in: 1.5
+  lat_out: 1.5
+  long_out: 1.5
+  notes: MyText
